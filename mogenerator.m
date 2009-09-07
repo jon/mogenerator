@@ -400,17 +400,27 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 			
 			NSString *machineHFileName = [machineDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"_%@.h", entityClassName]];
-			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName]]) {
+			if (![fm regularFileExistsAtPath:machineHFileName] || ![generatedMachineH isEqualToString:[NSString stringWithContentsOfFile:machineHFileName
+                                                                                                                                encoding:NSUTF8StringEncoding
+                                                                                                                                   error:nil]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineH writeToFile:machineHFileName atomically:NO];
+				[generatedMachineH writeToFile:machineHFileName
+                                    atomically:NO
+                                      encoding:NSUTF8StringEncoding
+                                         error:nil];
 				machineDirtied = YES;
 				machineFilesGenerated++;
 			}
 			NSString *machineMFileName = [machineDir stringByAppendingPathComponent:
                 [NSString stringWithFormat:@"_%@.m", entityClassName]];
-			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName]]) {
+			if (![fm regularFileExistsAtPath:machineMFileName] || ![generatedMachineM isEqualToString:[NSString stringWithContentsOfFile:machineMFileName
+                                                                                                                                encoding:NSUTF8StringEncoding
+                                                                                                                                   error:nil]]) {
 				//	If the file doesn't exist or is different than what we just generated, write it out.
-				[generatedMachineM writeToFile:machineMFileName atomically:NO];
+				[generatedMachineM writeToFile:machineMFileName
+                                    atomically:NO
+                                      encoding:NSUTF8StringEncoding
+                                         error:nil];
 				machineDirtied = YES;
 				machineFilesGenerated++;
 			}
@@ -420,7 +430,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				if (machineDirtied)
 					[fm touchPath:humanHFileName];
 			} else {
-				[generatedHumanH writeToFile:humanHFileName atomically:NO];
+				[generatedHumanH writeToFile:humanHFileName
+                                  atomically:NO
+                                    encoding:NSUTF8StringEncoding
+                                       error:nil];                
 				humanFilesGenerated++;
 			}
 			NSString *humanMFileName = [humanDir stringByAppendingPathComponent:
@@ -436,7 +449,10 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 				if (machineDirtied)
 					[fm touchPath:humanMFileName];
 			} else {
-				[generatedHumanM writeToFile:humanMFileName atomically:NO];
+				[generatedHumanM writeToFile:humanMFileName
+                                  atomically:NO
+                                    encoding:NSUTF8StringEncoding
+                                       error:nil];                
 				humanFilesGenerated++;
 			}
 			
@@ -446,11 +462,14 @@ NSString *ApplicationSupportSubdirectoryName = @"mogenerator";
 	}
 	
 	if (tempMOMPath) {
-		[fm removeFileAtPath:tempMOMPath handler:nil];
+		[fm removeItemAtPath:tempMOMPath error:nil];
 	}
 	bool mfileGenerated = NO;
 	if (mfilePath && ![mfileContent isEqualToString:@""]) {
-		[mfileContent writeToFile:mfilePath atomically:NO];
+		[mfileContent writeToFile:mfilePath
+                       atomically:NO
+                         encoding:NSUTF8StringEncoding
+                            error:nil];        
 		mfileGenerated = YES;
 	}
 	

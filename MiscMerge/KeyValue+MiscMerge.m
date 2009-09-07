@@ -65,7 +65,7 @@ static Ivar_t class_getInstanceVariable(Class aClass, const char *name);
 
     return (keySelector != NULL && [self respondsToSelector:keySelector]) ||
         ([[self class] accessInstanceVariablesDirectly] &&
-         class_getInstanceVariable([self class], [key cString]));
+         class_getInstanceVariable([self class], [key cStringUsingEncoding:NSUTF8StringEncoding]));
 }
 
 @end

@@ -38,7 +38,7 @@
 void ErrVPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stderr);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stderr);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
@@ -55,7 +55,7 @@ void ErrPrintf(NSString *format, ...)
 void VPrintf(NSString *format, va_list arguments)
 {
     NSString *logString = [[NSString alloc] initWithFormat:format arguments:arguments];
-    fwrite([logString cString], 1, [logString cStringLength], stdout);
+    fwrite([logString cStringUsingEncoding:NSUTF8StringEncoding], 1, [logString lengthOfBytesUsingEncoding:NSUTF8StringEncoding], stdout);
     if (![logString hasSuffix:@"\n"]) fputc('\n', stdout);
     [logString release];
 }
@@ -243,7 +243,7 @@ static int sortByName(id obj1, id obj2, void *context)
 
     attributes = [[NSMutableDictionary alloc] initWithCapacity:1];
     [attributes setObject:[NSDate date] forKey:NSFileModificationDate];
-    [self changeFileAttributes:attributes atPath:filePath];
+    [self setAttributes:attributes ofItemAtPath:filePath error:nil];
     [attributes release];
 }
 
@@ -258,7 +258,10 @@ static int sortByName(id obj1, id obj2, void *context)
             return NO;
     }
 
-    return [self createDirectoryAtPath:path attributes:attributes];
+    return [self createDirectoryAtPath:path
+           withIntermediateDirectories:YES
+                            attributes:attributes
+                                 error:nil];
 }
 
 @end
